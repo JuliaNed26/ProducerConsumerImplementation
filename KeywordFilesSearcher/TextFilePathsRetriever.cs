@@ -10,7 +10,9 @@ internal static class TextFilePathsRetriever
             try
             {
                 files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories)
-                    .Where(filePath => filePath.EndsWith(".txt") || filePath.EndsWith(".doc") || filePath.EndsWith(".docx"))
+                    .Where(filePath => filePath.EndsWith(".txt") 
+                                       || filePath.EndsWith(".doc") 
+                                       || filePath.EndsWith(".docx"))
                     .ToArray();
             }
             catch (UnauthorizedAccessException uae)

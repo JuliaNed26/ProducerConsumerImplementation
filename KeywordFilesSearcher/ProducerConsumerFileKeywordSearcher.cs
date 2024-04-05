@@ -1,13 +1,12 @@
 ﻿using System.Collections.Concurrent;
-using KeywordFilesSearcher;
 
-namespace TextEncryptor;
+namespace KeywordFilesSearcher;
 
 internal class ProducerConsumerFileKeywordSearcher
 {
-    private BlockingCollection<string> _filesWithKeyword = new();
+    private readonly BlockingCollection<string> _filesWithKeyword = new();
 
-    public void Produce(string keyword)
+    public void ProduceAsync(string keyword)
     {
         string[] textFiles = TextFilePathsRetriever.GetFromPath(@"C:\");
 
@@ -22,8 +21,11 @@ internal class ProducerConsumerFileKeywordSearcher
             readFileTasks.Add(ReadAndSearchForKeywordAsync(keyword, file));
         }
 
-        Task.WaitAll(readFileTasks.ToArray());
-        StopSearch();
+        if (!_filesWithKeyword.IsAddingCompleted)
+        {
+            Task.WaitAll(readFileTasks.ToArray());
+            StopSearch();
+        }
     }
 
     public void Consume()

@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using KeywordFilesSearcher;
-using TextEncryptor;
 
 Console.InputEncoding = System.Text.Encoding.Unicode;
 Console.OutputEncoding = System.Text.Encoding.Unicode;
@@ -31,13 +29,13 @@ void SearchWithProducerConsumer()
 {
     var keywordSearcher = new ProducerConsumerFileKeywordSearcher();
 
-    keywordSearcher.Produce(keyword);
+    keywordSearcher.ProduceAsync(keyword);
 
     var consumer = Task.Run(() => keywordSearcher.Consume());
     consumer.Wait();
 
     Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine($"\nSimultaneous search was finished\n");
+    Console.WriteLine("\nSimultaneous search was finished\n");
     Console.ResetColor();
 }
 
@@ -48,6 +46,6 @@ void SearchSynchronously()
     keywordSearcher.ShowFiles();
 
     Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine($"\nSynchronous search was finished\n");
+    Console.WriteLine("\nSynchronous search was finished\n");
     Console.ResetColor();
 }

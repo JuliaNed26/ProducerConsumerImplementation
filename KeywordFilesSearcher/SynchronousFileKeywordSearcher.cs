@@ -3,7 +3,7 @@ namespace KeywordFilesSearcher;
 
 internal class SynchronousFileKeywordSearcher
 {
-    private List<string> _filesWithKeyword = new();
+    private readonly List<string> _filesWithKeyword = new();
 
     public void SearchForFiles(string keyword)
     {
