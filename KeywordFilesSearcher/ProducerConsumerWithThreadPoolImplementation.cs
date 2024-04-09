@@ -2,7 +2,7 @@
 
 namespace KeywordFilesSearcher;
 
-internal class ProducerConsumerFileKeywordSearcher
+internal class ProducerConsumerWithThreadPoolImplementation
 {
     private readonly BlockingCollection<string> _filesWithKeyword = new();
 

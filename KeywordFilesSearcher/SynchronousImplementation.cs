@@ -1,7 +1,7 @@
 ﻿
 namespace KeywordFilesSearcher;
 
-internal class SynchronousFileKeywordSearcher
+internal class SynchronousImplementation
 {
     private readonly List<string> _filesWithKeyword = new();
 
