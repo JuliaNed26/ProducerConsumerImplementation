@@ -6,10 +6,8 @@ internal class ProducerConsumerFileKeywordSearcher
 {
     private readonly BlockingCollection<string> _filesWithKeyword = new();
 
-    public void ProduceAsync(string keyword)
+    public void ProduceAsync(string keyword, IEnumerable<string> textFiles)
     {
-        string[] textFiles = TextFilePathsRetriever.GetFromPath(@"C:\");
-
         var readFileTasks = new List<Task>();
         foreach (var file in textFiles)
         {
@@ -57,7 +55,6 @@ internal class ProducerConsumerFileKeywordSearcher
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
             }
         });
     }

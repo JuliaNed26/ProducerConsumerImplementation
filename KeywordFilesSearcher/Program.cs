@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
 using KeywordFilesSearcher;
 
-Console.InputEncoding = System.Text.Encoding.Unicode;
-Console.OutputEncoding = System.Text.Encoding.Unicode;
-
 Console.Write("Enter the keyword you wish to search: ");
 string keyword = Console.ReadLine()!;
+var textFiles = TextFilePathsRetriever.GetFromPath(@"C:\\Users").ToList();
 
 var stopWatch = new Stopwatch();
 
@@ -29,7 +27,7 @@ void SearchWithProducerConsumer()
 {
     var keywordSearcher = new ProducerConsumerFileKeywordSearcher();
 
-    keywordSearcher.ProduceAsync(keyword);
+    keywordSearcher.ProduceAsync(keyword, textFiles);
 
     var consumer = Task.Run(() => keywordSearcher.Consume());
     consumer.Wait();
@@ -42,7 +40,7 @@ void SearchWithProducerConsumer()
 void SearchSynchronously()
 {
     var keywordSearcher = new SynchronousFileKeywordSearcher();
-    keywordSearcher.SearchForFiles(keyword);
+    keywordSearcher.SearchForFiles(keyword, textFiles);
     keywordSearcher.ShowFiles();
 
     Console.ForegroundColor = ConsoleColor.Yellow;

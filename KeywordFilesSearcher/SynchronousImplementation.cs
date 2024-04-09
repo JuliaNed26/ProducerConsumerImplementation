@@ -5,9 +5,8 @@ internal class SynchronousFileKeywordSearcher
 {
     private readonly List<string> _filesWithKeyword = new();
 
-    public void SearchForFiles(string keyword)
+    public void SearchForFiles(string keyword, IEnumerable<string> textFiles)
     {
-        string[] textFiles = TextFilePathsRetriever.GetFromPath(@"C:\");
         foreach (var filePath in textFiles)
         {
             try
@@ -25,7 +24,6 @@ internal class SynchronousFileKeywordSearcher
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
             }
         }
     }

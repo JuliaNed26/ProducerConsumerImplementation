@@ -2,26 +2,27 @@
 
 internal static class TextFilePathsRetriever
 {
-    public static string[] GetFromPath(string path)
+    public static IEnumerable<string> GetFromPath(string path)
     {
-        string[] textFiles = Directory.GetDirectories(path).SelectMany(dir =>
+        var fileEntries = Enumerable.Empty<string>();
+        IEnumerable<string> dirEntries = Enumerable.Empty<string>();
+
+        try
         {
-            var files = Array.Empty<string>();
-            try
-            {
-                files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories)
-                    .Where(filePath => filePath.EndsWith(".txt") 
-                                       || filePath.EndsWith(".doc") 
-                                       || filePath.EndsWith(".docx"))
-                    .ToArray();
-            }
-            catch (UnauthorizedAccessException uae)
-            {
-            }
+            dirEntries = Directory.EnumerateDirectories(path);
+            fileEntries = Directory.EnumerateFiles(path, "*.*").Where(file => file.EndsWith(".txt") ||
+                                                                              file.EndsWith(".doc") ||
+                                                                              file.EndsWith(".docx"));
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
 
-            return files;
-        }).ToArray();
+        foreach (var dirPath in dirEntries)
+        {
+            fileEntries = fileEntries.Concat(GetFromPath(dirPath));
+        }
 
-        return textFiles;
+        return fileEntries;
     }
 }
